@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Banner, Notice,Company_Detail,Activity,Map,Copyright
+from .models import Banner, Notice,Company_Detail,Activity,Map,Copyright,Banner_Goods,Banner_Goods_type
 
 
 # 轮播图表序列化类
@@ -48,4 +48,20 @@ class MapSerializer(serializers.ModelSerializer):
 class CopyrightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Copyright
-        fields = ['id', 'title','img','description','categoryName']
+        fields = ['order', 'title','img','description','categoryName']
+
+
+
+class Banner_Product_type_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banner_Goods_type
+        fields = '__all__'
+
+class Banner_Product_Serializer(serializers.ModelSerializer):
+    type = Banner_Product_type_Serializer()
+    class Meta:
+        model = Banner_Goods
+        fields = ['type','id', 'name','img','description']
+        depth = 1
+
+

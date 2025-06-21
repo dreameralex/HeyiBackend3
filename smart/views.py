@@ -185,10 +185,32 @@ class Map_detailView(GenericViewSet, ListModelMixin):
 from .models import Copyright
 from .serializer import  CopyrightSerializer
 class Copyright_View(GenericViewSet, ListModelMixin):
-    queryset = Map.objects.all().filter().order_by('order')
+    queryset = Copyright.objects.all().filter().order_by('order')
 
     serializer_class = CopyrightSerializer
 
     def list(self, request, *args, **kwargs):
         res = super().list(request, *args, **kwargs)
         return Response({'code': 100, 'msg': '成功', 'copyrightData': res.data})
+
+
+from .models import Banner_Goods
+from .serializer import Banner_Product_Serializer
+class Banner_Product_view(GenericViewSet, ListModelMixin):
+    queryset = Banner_Goods.objects.all().filter().order_by('order')
+
+    serializer_class = Banner_Product_Serializer
+    def list(self, request, *args, **kwargs):
+        res = super().list(request, *args, **kwargs)
+        return Response({'code': 100, 'msg': '成功', 'data': res.data})
+
+
+
+
+# Welcome
+from .models import Welcome
+from django.http import JsonResponse
+def welcome(request):
+    res = Welcome.objects.all().order_by('-order').first()
+    img = 'http://192.168.5.6:8000/media/' + str(res.img)
+    return JsonResponse({'code': 100, 'msg': '成功', 'result': img})

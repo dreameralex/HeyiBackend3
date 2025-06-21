@@ -2,6 +2,20 @@ from django.db import models
 
 # Create your models here.
 
+
+# 开启app广告页面
+class Welcome(models.Model):
+    img = models.ImageField(upload_to='welcome', default='/welcome/welcome.jpg', verbose_name='图片')
+    order = models.IntegerField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    is_delete = models.BooleanField(default=False)
+
+
+
+
+
+
+
 class Banner(models.Model):
 
     img = models.ImageField(upload_to='banner', default='banner1.png', verbose_name='图片')
@@ -30,6 +44,10 @@ class Notice(models.Model):
     class Meta:
         verbose_name_plural = '公告表'
 
+
+    def __str__(self):
+        return self.title
+
 # 首页公司介绍表
 class Company_Detail(models.Model):
     img_header = models.ImageField(upload_to='company_datail', default='/banner1.png', verbose_name="标题图片")
@@ -44,7 +62,7 @@ class Company_Detail(models.Model):
         verbose_name_plural = "介绍表"
 
     def __str__(self):
-        return str(self.img_header)
+        return self.name
 
 ##表模型
 class UserInfo(models.Model):
@@ -100,12 +118,46 @@ class Map(models.Model):
     class Meta:
         verbose_name_plural = '地图'
 
+    def __str__(self):
+        return  self.title
+
 # 版权
 class Copyright(models.Model):
     title = models.CharField(verbose_name="版权标题", max_length=50)
     img = models.ImageField(upload_to='copyright', verbose_name="版权图片")
     description = models.CharField(verbose_name="版权信息", max_length=250)
     categoryName = models.CharField(verbose_name="版权类别", max_length=50)
-    order = models.IntegerField(verbose_name="顺序")
+    order = models.IntegerField(verbose_name="顺序",auto_created=True)
     class Meta:
         verbose_name_plural = '版权'
+    def __str__(self):
+        return  self.title
+
+#轮播图2
+class Banner_Goods_type(models.Model):
+    type = models.CharField(verbose_name="商品类别", max_length=50)
+    class Meta:
+        verbose_name_plural = '商品类别'
+    def __str__(self):
+        return self.type
+
+
+class Banner_Goods(models.Model):
+    name = models.CharField(verbose_name="商品名称", max_length=50)
+    type = models.ForeignKey(Banner_Goods_type, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to='banner_goods', verbose_name="商品图片")
+    description = models.CharField(verbose_name="商品详情", max_length=250)
+    order = models.IntegerField(verbose_name="顺序")
+    class Meta:
+        verbose_name_plural = '商品轮播图'
+
+    def __str__(self):
+        return self.name
+
+
+
+
+
+
+
+

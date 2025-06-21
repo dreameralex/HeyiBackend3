@@ -3,7 +3,7 @@ from django.contrib import admin
 
 
 from rest_framework.routers import SimpleRouter
-from .views import BannerView,Company_detailView,NoticeView,ActivityView,LoginView,ActivityJoinView,Map_detailView,Copyright_View
+from .views import BannerView,Company_detailView,NoticeView,ActivityView,LoginView,ActivityJoinView,Map_detailView,Copyright_View,Banner_Product_view,welcome
 
 
 
@@ -16,7 +16,9 @@ router.register('user', LoginView, 'user')
 router.register('join', ActivityJoinView, 'join')
 router.register('map', Map_detailView, 'map')
 router.register('copyright', Copyright_View, 'copyright')
-urlpatterns = [
+router.register('banner_product', Banner_Product_view, 'banner_product')
 
+urlpatterns = [
+    path('welcome/', welcome),
 ]
 urlpatterns+= router.urls
