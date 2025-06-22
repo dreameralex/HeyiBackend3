@@ -35,7 +35,7 @@ class Conpany_detailSerializer(serializers.ModelSerializer):
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = ['id', 'title','text','date','count','score','total_count']
+        fields = ['id', 'title','text','date','count','score','total_count','info_img']
         extra_kwargs={
             'date':{'format':"%Y-%m-%d"}
         }
@@ -48,7 +48,7 @@ class MapSerializer(serializers.ModelSerializer):
 class CopyrightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Copyright
-        fields = ['order', 'title','img','description','categoryName']
+        fields = ['order', 'title','img','description','categoryName','img_detail']
 
 
 

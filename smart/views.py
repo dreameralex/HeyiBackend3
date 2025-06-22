@@ -111,7 +111,7 @@ class LoginView(GenericViewSet):
             refresh = RefreshToken.for_user(user)
             return Response(
                  {'code': 100, 'msg': '登录成功', 'token': str(refresh.access_token), 'name': user.name,
-                'score': user.score, 'avatar': 'http://127.0.0.1:8000/media/' + str(user.avatar)})
+                'score': user.score, 'avatar': 'http://192.168.5.6:8000/media/' + str(user.avatar)})
 
         else:
             return Response({'code': 101, 'msg': '验证码错误'})
@@ -139,7 +139,7 @@ class LoginView(GenericViewSet):
 
         return Response(
             {'code': 100, 'msg': '登录成功', 'token': str(refresh.access_token), 'name': user.name, 'score': user.score,
-             'avatar': 'http://127.0.0.1:8000/media/' + str(user.avatar)})
+             'avatar': 'http://192.168.5.6:8000/media/' + str(user.avatar)})
 
 ### 报名后端接口
 from .auth import MyJSONWebTokenAuthentication

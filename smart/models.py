@@ -88,7 +88,7 @@ class Activity(models.Model):
     count = models.IntegerField(verbose_name='报名人数', default=0)
     total_count = models.IntegerField(verbose_name='总人数', default=0)
     score = models.IntegerField(verbose_name="积分", default=0)
-
+    info_img = models.ImageField(upload_to='activity', default='/default.png',verbose_name="活动图片")
 
     join_record = models.ManyToManyField(verbose_name="参与者",
                                          through="JoinRecord",
@@ -100,15 +100,19 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.title
+
 #  活动报名记录
 class JoinRecord(models.Model):
     user = models.ForeignKey(verbose_name='用户', to="UserInfo", on_delete=models.CASCADE)
     activity = models.ForeignKey(verbose_name="活动", to="Activity", on_delete=models.CASCADE, related_name='ac')
-
+    point = models.IntegerField(verbose_name="活动积分", default=0)
+    participation = models.BooleanField(verbose_name="是否已参加", default=False)
     exchange = models.BooleanField(verbose_name="是否已兑换", default=False)
 
     class Meta:
         verbose_name_plural = '活动报名记录'
+
+
 
 # 地图
 class Map(models.Model):
@@ -128,6 +132,7 @@ class Copyright(models.Model):
     description = models.CharField(verbose_name="版权信息", max_length=250)
     categoryName = models.CharField(verbose_name="版权类别", max_length=50)
     order = models.IntegerField(verbose_name="顺序",auto_created=True)
+    img_detail = models.ImageField(upload_to='copyright/copyright_detail',default='/default.png', verbose_name="版权图片")
     class Meta:
         verbose_name_plural = '版权'
     def __str__(self):
