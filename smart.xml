@@ -2,7 +2,7 @@
 
     <socket>127.0.0.1:8080</socket>
 
-    <chdir>/home/HeYIBackend3/</chdir>
+    <chdir>/home/code/HeYIBackend3/</chdir>
 
     <module>HeYIBackend3.wsgi</module>
 
