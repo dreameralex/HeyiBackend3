@@ -11,6 +11,7 @@ from .models import Banner, Notice,Company_Detail
 
 from .serializer import BannerSerializer, NoticeSerializer,Conpany_detailSerializer,MapSerializer
 
+from django.conf import settings
 
 class BannerView(GenericViewSet, ListModelMixin):
 
@@ -111,7 +112,7 @@ class LoginView(GenericViewSet):
             refresh = RefreshToken.for_user(user)
             return Response(
                  {'code': 100, 'msg': '登录成功', 'token': str(refresh.access_token), 'name': user.name,
-                'score': user.score, 'avatar': 'http://192.168.5.6:8000/media/' + str(user.avatar)})
+                'score': user.score, 'avatar': settings.BACKEND_URL + '/media/' + str(user.avatar)})
 
         else:
             return Response({'code': 101, 'msg': '验证码错误'})
@@ -139,7 +140,7 @@ class LoginView(GenericViewSet):
 
         return Response(
             {'code': 100, 'msg': '登录成功', 'token': str(refresh.access_token), 'name': user.name, 'score': user.score,
-             'avatar': 'http://192.168.5.6:8000/media/' + str(user.avatar)})
+             'avatar': settings.BACKEND_URL + '/media/' + str(user.avatar)})
 
 ### 报名后端接口
 from .auth import MyJSONWebTokenAuthentication
@@ -212,5 +213,5 @@ from .models import Welcome
 from django.http import JsonResponse
 def welcome(request):
     res = Welcome.objects.all().order_by('-order').first()
-    img = 'http://192.168.5.6:8000/media/' + str(res.img)
+    img = settings.BACKEND_URL + '/media/' + str(res.img)
     return JsonResponse({'code': 100, 'msg': '成功', 'result': img})
