@@ -67,12 +67,14 @@ class Company_Detail(models.Model):
 ##表模型
 class UserInfo(models.Model):
     name = models.CharField(verbose_name="姓名", max_length=32)
-    avatar = models.FileField(verbose_name="头像", max_length=128, upload_to='avatar')
+    avatar = models.FileField(verbose_name="头像", upload_to='avatar')
     create_date = models.DateField(verbose_name="日期", auto_now_add=True)
     score = models.IntegerField(verbose_name="积分", default=0)
 
     # 用户用手机号登录，手机号
     mobile = models.CharField(verbose_name="手机号",max_length=11,null=True)
+
+    openid = models.CharField(verbose_name="微信小程序id", max_length=250, null=True,blank=True)
 
     class Meta:
         verbose_name_plural = '用户表'

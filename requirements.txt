@@ -18,4 +18,7 @@ django-simpleui
 
 pillow
 
+itsdangerous-2.2.0
+
+
 chardet
