@@ -242,12 +242,14 @@ class LoginView(GenericViewSet):
             print('已经存在用户')
             # 已经存在用户
             refresh = RefreshToken.for_user(user)
+            avatar_url = user.avatar.url
             return Response({
                 'token': str(refresh.access_token),
                 'user_id': user.id,
                 'phone': user.mobile,
                 'score': user.score,
                 'name': user.name,
+                'avatarurl': avatar_url,
                 'code': 100
             })
 
