@@ -67,7 +67,7 @@ class Company_Detail(models.Model):
 ##表模型
 class UserInfo(models.Model):
     name = models.CharField(verbose_name="姓名", max_length=32)
-    avatar = models.FileField(verbose_name="头像", upload_to='avatar')
+    avatar = models.FileField(verbose_name="头像", upload_to='avatar',default='/avatar/avatar.png')
     create_date = models.DateField(verbose_name="日期", auto_now_add=True)
     score = models.IntegerField(verbose_name="积分", default=0)
 

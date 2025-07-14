@@ -75,7 +75,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from faker import Faker
 import requests
 
-
+from django.http import HttpResponse
 
 # 发送短信接口--》快速登录--》普通手机号登陆舰
 class LoginView(GenericViewSet):
@@ -173,9 +173,11 @@ class LoginView(GenericViewSet):
         else:
             refresh = RefreshToken.for_user(user)
             openid = generate_save_user_token(openid)
+            avatar_url = user.avatar.url
             return Response({'token':str(refresh.access_token),
                              'user_name': user.name,
-                             'openid':openid})
+                             'openid':openid,
+                             'avatar_url':avatar_url})
 
 
 
@@ -257,16 +259,23 @@ class LoginView(GenericViewSet):
 
     @action(methods=['POST'], detail=False)
     def uploadAvatar(self, request, *args, **kwargs):
+        print("uploadAvatar")
         openid = request.data['openid']
         avatar = request.data['file']
+        print('openid',openid)
         openid = check_save_user_token(openid)
+        print('openid',openid)
         user = UserInfo.objects.get(openid=openid)
         user.avatar = avatar
         user.save()
-        return Response({'code': status.HTTP_200_OK, 'avatar': user.avatar})
+        user = UserInfo.objects.get(openid=openid)
+        avatarurl = user.avatar.url
+        print(avatarurl)
 
-
-
+        return Response(data={
+            'avatar_url': avatarurl,
+            'code': 100
+        })
 
 
 
@@ -307,19 +316,37 @@ class WXAuthUserView(CreateAPIView):
             # 需要对openid进行加密
             print('没有微信用户')
             user = UserInfo.objects.create(mobile=phone,openid=openid,score=0,name=username)
-            user.save()
-            return Response({'phone':user.mobile,'score':user.score,'name':user.name})
+
+            refresh = RefreshToken.for_user(user)
+            print(user.id,user.name,user.score,user.avatar)
+
+
+            # user.save()
+            return Response({
+                'token': str(refresh.access_token),
+                'user_id': user.id,
+                'phone': user.mobile,
+                'score': user.score,
+                'name': user.name,
+                'code':100
+            })
+
+
         else:
             # 已经存在用户
             print('存在')
             refresh = RefreshToken.for_user(user)
+            avatar_url = user.avatar.url
+
+            print(avatar_url)
             return Response({
                 'token': str(refresh.access_token),
-                'avatar': user.avatar,
+                'avatar_url': avatar_url,
                 'user_id': user.id,
                 'phone': user.mobile,
                 'score': user.score,
-                'name': user.name
+                'name': user.name,
+                'code':100
             })
 
 
